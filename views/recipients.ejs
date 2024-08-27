@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipients List</title>
+</head>
+<body>
+    <h1>Recipients</h1>
+    <table border="1">
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Carrier</th>
+        </tr>
+        <% recipients.forEach(function(recipient) { %>
+        <tr>
+            <td><%= recipient.first_name %></td>
+            <td><%= recipient.last_name %></td>
+            <td><%= recipient.email %></td>
+            <td><%= recipient.phone_number %></td>
+            <td><%= recipient.carrier %></td>
+        </tr>
+        <% }); %>
+    </table>
+    <br>
+    <a href="/add">Add a new recipient</a>
+</body>
+</html>

@@ -1,0 +1,48 @@
+body.bb {
+    background-color: #f8f9fa;
+    color: #343a40;
+}
+
+.sidenav {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: -250px;
+    background-color: #343a40;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #f8f9fa;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav a:hover {
+    color: #007bff;
+}
+
+.main-content {
+    margin-left: 300px;
+    padding: 20px;
+}
+
+.table {
+    margin-top: 20px;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.btn-floating {
+    border-radius: 50%;
+}

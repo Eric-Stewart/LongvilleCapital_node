@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipient Management</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bb">
+    <p><span style="font-size:30px;cursor:pointer" id="myMenu" onclick="openNav()">&#9776; </span></p>
+    <div class="sidenav" id="MySideNav">
+        <a href="/">Home</a>
+        <a href="/add">Add Recipient</a>
+        <a href="/update">Update Recipient</a>
+        <a href="/delete">Delete Recipient</a>
+    </div>
+    <div class="container main-content">
+        <h1>Recipient Management</h1>
+
+        <h4>Add New Recipient</h4>
+        <form action="/add_recipient" method="post">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="first_name">First Name:</label>
+                    <input type="text" class="form-control" id="first_name" name="first_name">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="last_name">Last Name:</label>
+                    <input type="text" class="form-control" id="last_name" name="last_name">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="email">Email:</label>
+                    <input type="email" class="form-control" id="email" name="email">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="phone_number">Phone Number:</label>
+                    <input type="text" class="form-control" id="phone_number" name="phone_number">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="carrier">Carrier:</label>
+                    <input type="text" class="form-control" id="carrier" name="carrier">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Recipient</button>
+        </form>
+
+        <br>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Carrier</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% recipients.forEach(recipient => { %>
+                    <tr>
+                        <td><%= recipient.first_name %></td>
+                        <td><%= recipient.last_name %></td>
+                        <td><%= recipient.email %></td>
+                        <td><%= recipient.phone_number %></td>
+                        <td><%= recipient.carrier %></td>
+                        <td>
+                            <form action="/delete_recipient" method="POST" onsubmit="return confirm('Are you sure you want to delete this recipient?');">
+                                <input type="hidden" name="id" value="<%= recipient.id %>">
+                                <button type="submit" class="btn btn-danger btn-floating">-</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+    <div style="position:center; margin-left: auto; margin-right: auto; width:500px; height:500px;">
+        <canvas id="stockChart" width="400" height="800"></canvas>
+    </div>
+</body>
+</html>
