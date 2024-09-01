@@ -3,34 +3,8 @@ body.bb {
     color: #343a40;
 }
 
-.sidenav {
-    height: 100%;
-    width: 250px;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: -250px;
-    background-color: #343a40;
-    overflow-x: hidden;
-    transition: 0.5s;
-    padding-top: 60px;
-}
-
-.sidenav a {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #f8f9fa;
-    display: block;
-    transition: 0.3s;
-}
-
-.sidenav a:hover {
-    color: #007bff;
-}
-
 .main-content {
-    margin-left: 300px;
+    margin-left: 150px;
     padding: 20px;
 }
 
@@ -45,4 +19,8 @@ body.bb {
 
 .btn-floating {
     border-radius: 50%;
+}
+
+.btn-secondary {
+  float: right;
 }
