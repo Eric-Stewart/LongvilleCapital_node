@@ -14,6 +14,7 @@
             <th>Email</th>
             <th>Phone Number</th>
             <th>Carrier</th>
+            <th>Preferences</th>
         </tr>
         <% recipients.forEach(function(recipient) { %>
         <tr>
@@ -22,6 +23,7 @@
             <td><%= recipient.email %></td>
             <td><%= recipient.phone_number %></td>
             <td><%= recipient.carrier %></td>
+            <td><%= recipient.preferences %></td>
         </tr>
         <% }); %>
     </table>

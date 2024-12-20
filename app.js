@@ -60,17 +60,17 @@ app.get('/logout', (req, res) => {
 
 // Protect your main route with authentication
 app.get('/', checkAuth, async (req, res) => {
-    const result = await pool.query('SELECT * FROM recipients');
+    const result = await pool.query('SELECT * FROM lc_recipients');
     res.render('index', { recipients: result.rows });
 });
 
 // Route to handle adding a new recipient
 app.post('/add_recipient', async (req, res) => {
-    const { first_name, last_name, email, phone_number, carrier } = req.body;
+    const { first_name, last_name, email, phone_number, carrier, preferences } = req.body;
 
     await pool.query(
-        'INSERT INTO recipients (first_name, last_name, email, phone_number, carrier) VALUES ($1, $2, $3, $4, $5)',
-        [first_name, last_name, email, phone_number, carrier]
+        'INSERT INTO lc_recipients (first_name, last_name, email, phone_number, carrier, preferences) VALUES ($1, $2, $3, $4, $5, $6)',
+        [first_name, last_name, email, phone_number, carrier, preferences]
     );
 
     res.redirect('/');
@@ -80,10 +80,47 @@ app.post('/add_recipient', async (req, res) => {
 app.post('/delete_recipient', async (req, res) => {
     const { id } = req.body;
 
-    await pool.query('DELETE FROM recipients WHERE id = $1', [id]);
+    await pool.query('DELETE FROM lc_recipients WHERE id = $1', [id]);
 
     res.redirect('/');
 });
+
+app.get('/company_catalog', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT * FROM LC_COMPANY_CATALOG');
+        const companies = result.rows; // Retrieve all rows from the table
+        res.render('company_catalog', { companies });
+    } catch (error) {
+        console.error('Error fetching companies:', error);
+        res.status(500).send('Server error');
+    }
+});
+
+app.post('/add_company', async (req, res) => {
+    const { company_name, category, is_active, additional_info } = req.body;
+    try {
+        await pool.query(
+            'INSERT INTO LC_COMPANY_CATALOG (company_name, category, is_active, additional_info) VALUES ($1, $2, $3, $4)',
+            [company_name, category, is_active === 'on', additional_info]
+        );
+        res.redirect('/company_catalog');
+    } catch (error) {
+        console.error('Error adding company:', error);
+        res.status(500).send('Server error');
+    }
+});
+
+app.post('/delete_company', async (req, res) => {
+    const { id } = req.body;
+    try {
+        await pool.query('DELETE FROM LC_COMPANY_CATALOG WHERE pk = $1', [id]);
+        res.redirect('/company_catalog');
+    } catch (error) {
+        console.error('Error deleting company:', error);
+        res.status(500).send('Server error');
+    }
+});
+
 
 // Start the server
 const port = process.env.PORT || 3000;
