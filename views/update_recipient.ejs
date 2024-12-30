@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Recipient</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <script>
+        // Function to validate JSON input
+        function validateJSON(event) {
+            const preferencesField = document.getElementById('preferences');
+            const preferences = preferencesField.value.trim();
+
+            try {
+                // Try parsing the input to check if it's valid JSON
+                JSON.parse(preferences);
+
+                // If valid, allow form submission
+                preferencesField.classList.remove('is-invalid');
+            } catch (error) {
+                // If invalid, prevent form submission and show error
+                event.preventDefault();
+                preferencesField.classList.add('is-invalid');
+                document.getElementById('jsonError').textContent = 'Please enter a valid JSON object.';
+            }
+        }
+    </script>
+</head>
+<body class="bb">
+    <div class="container main-content">
+        <h1>Update Recipient</h1>
+        <a href="/" class="btn btn-secondary">Back</a>
+        <form action="/update_recipient" method="POST" onsubmit="validateJSON(event)">
+            <input type="hidden" name="id" value="<%= recipient.id %>">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="first_name">First Name:</label>
+                    <input type="text" class="form-control" id="first_name" name="first_name" value="<%= recipient.first_name %>" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="last_name">Last Name:</label>
+                    <input type="text" class="form-control" id="last_name" name="last_name" value="<%= recipient.last_name %>" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="email">Email:</label>
+                    <input type="email" class="form-control" id="email" name="email" value="<%= recipient.email %>" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="phone_number">Phone Number:</label>
+                    <input type="text" class="form-control" id="phone_number" name="phone_number" value="<%= recipient.phone_number %>" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="carrier">Carrier:</label>
+                    <input type="text" class="form-control" id="carrier" name="carrier" value="<%= recipient.carrier %>" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="preferences">Preferences:</label>
+                <textarea class="form-control" id="preferences" name="preferences" rows="4" required><%= JSON.stringify(recipient.preferences, null, 2) %></textarea>
+                <div class="invalid-feedback" id="jsonError"></div>
+                <small class="form-text text-muted">Enter preferences as a valid JSON object.</small>
+            </div>
+            <button type="submit" class="btn btn-primary">Update Recipient</button>
+        </form>
+    </div>
+</body>
+</html>

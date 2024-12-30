@@ -85,6 +85,38 @@ app.post('/delete_recipient', async (req, res) => {
     res.redirect('/');
 });
 
+// Route to render update form
+app.get('/update_recipient/:id', checkAuth, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const result = await pool.query('SELECT * FROM lc_recipients WHERE id = $1', [id]);
+
+        if (result.rows.length === 0) {
+            return res.status(404).send('Recipient not found');
+        }
+
+        res.render('update_recipient', { recipient: result.rows[0] });
+    } catch (error) {
+        console.error('Error fetching recipient for update:', error);
+        res.status(500).send('Server error');
+    }
+});
+
+// Route to handle updating a recipient
+app.post('/update_recipient', checkAuth, async (req, res) => {
+    const { id, first_name, last_name, email, phone_number, carrier, preferences } = req.body;
+    try {
+        await pool.query(
+            'UPDATE lc_recipients SET first_name = $1, last_name = $2, email = $3, phone_number = $4, carrier = $5, preferences = $6 WHERE id = $7',
+            [first_name, last_name, email, phone_number, carrier, preferences, id]
+        );
+        res.redirect('/');
+    } catch (error) {
+        console.error('Error updating recipient:', error);
+        res.status(500).send('Server error');
+    }
+});
+
 app.get('/company_catalog', async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM LC_COMPANY_CATALOG');
@@ -120,7 +152,6 @@ app.post('/delete_company', async (req, res) => {
         res.status(500).send('Server error');
     }
 });
-
 
 // Start the server
 const port = process.env.PORT || 3000;
